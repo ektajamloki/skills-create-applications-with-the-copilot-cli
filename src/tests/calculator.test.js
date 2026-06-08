@@ -48,4 +48,29 @@ describe('Calculator library - basic operations', () => {
     expect(calc.multiply([])).toBe(1);
     expect(() => calc.divide([])).toThrow();
   });
+
+  // Extended operations tests
+  test('modulo: 5 % 2 = 1', () => {
+    expect(calc.modulo(5, 2)).toBe(1);
+  });
+
+  test('modulo by zero throws', () => {
+    expect(() => calc.modulo(10, 0)).toThrow('division-by-zero');
+  });
+
+  test('power: 2 ^ 3 = 8', () => {
+    expect(calc.power(2, 3)).toBe(8);
+  });
+
+  test('power: non-integer exponent', () => {
+    expect(calc.power(9, 0.5)).toBeCloseTo(3);
+  });
+
+  test('squareRoot: sqrt(16) = 4', () => {
+    expect(calc.squareRoot(16)).toBe(4);
+  });
+
+  test('squareRoot negative throws', () => {
+    expect(() => calc.squareRoot(-1)).toThrow('negative-number');
+  });
 });
