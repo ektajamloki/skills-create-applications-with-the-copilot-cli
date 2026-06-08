@@ -2,26 +2,35 @@
 
 // Node.js CLI Calculator
 // Supported operations:
-//  - add       (addition)
-//  - subtract  (subtraction)
-//  - multiply  (multiplication)
-//  - divide    (division)
+//  - add         (addition)
+//  - subtract    (subtraction)
+//  - multiply    (multiplication)
+//  - divide      (division)
+//  - modulo      (remainder)
+//  - power       (exponentiation)
+//  - squareRoot  (square root)
 
 // Usage examples:
-//   node src/calculator.js add 2 3        -> 5
-//   node src/calculator.js subtract 5 2   -> 3
-//   node src/calculator.js multiply 4 6   -> 24
-//   node src/calculator.js divide 10 2    -> 5
+//   node src/calculator.js add 2 3           -> 5
+//   node src/calculator.js subtract 5 2      -> 3
+//   node src/calculator.js multiply 4 6      -> 24
+//   node src/calculator.js divide 10 2       -> 5
+//   node src/calculator.js modulo 10 3       -> 1
+//   node src/calculator.js power 2 8         -> 256
+//   node src/calculator.js sqrt 9            -> 3
 //   node src/calculator.js --help
 
 function showHelp() {
   console.log('Usage: calculator <command> <num1> <num2> [...nums]');
-  console.log('Commands: add, subtract, multiply, divide');
+  console.log('Commands: add, subtract, multiply, divide, modulo, power, sqrt');
   console.log('\nExamples:');
   console.log('  calculator add 2 3');
   console.log('  calculator subtract 10 4 1');
   console.log('  calculator multiply 3 4');
   console.log('  calculator divide 20 2 2');
+  console.log('  calculator modulo 10 3');
+  console.log('  calculator power 2 8');
+  console.log('  calculator sqrt 9');
 }
 
 const argv = process.argv.slice(2);
@@ -74,6 +83,50 @@ switch (command.toLowerCase()) {
       if (err.message === 'division-by-zero') {
         console.error('Error: Division by zero is not allowed.');
         process.exit(2);
+      }
+      throw err;
+    }
+    break;
+  case 'modulo':
+  case 'mod':
+    // modulo: a % b (requires two operands)
+    if (operands.length < 2) {
+      console.error('Error: Modulo operation requires two operands.');
+      process.exit(1);
+    }
+    try {
+      result = lib.modulo(operands[0], operands[1]);
+    } catch (err) {
+      if (err.message === 'division-by-zero') {
+        console.error('Error: Modulo by zero is not allowed.');
+        process.exit(2);
+      }
+      throw err;
+    }
+    break;
+  case 'power':
+  case 'pow':
+    // exponentiation: base ^ exponent
+    if (operands.length < 2) {
+      console.error('Error: Power operation requires base and exponent.');
+      process.exit(1);
+    }
+    result = lib.power(operands[0], operands[1]);
+    break;
+  case 'sqrt':
+  case 'squareroot':
+  case 'squareRoot':
+    // square root: sqrt(n)
+    if (operands.length < 1) {
+      console.error('Error: Square root requires one operand.');
+      process.exit(1);
+    }
+    try {
+      result = lib.squareRoot(operands[0]);
+    } catch (err) {
+      if (err.message === 'negative-number') {
+        console.error('Error: Cannot compute square root of negative number.');
+        process.exit(3);
       }
       throw err;
     }

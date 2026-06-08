@@ -28,4 +28,24 @@ function divide(operands) {
   return divisors.reduce((a, b) => a / b, operands[0]);
 }
 
-module.exports = { add, subtract, multiply, divide };
+// Returns remainder of a divided by b. Throws on divide/modulo by zero.
+function modulo(a, b) {
+  if (!Number.isFinite(a) || !Number.isFinite(b)) throw new Error('invalid-operand');
+  if (b === 0) throw new Error('division-by-zero');
+  return a % b;
+}
+
+// Returns base raised to exponent using Math.pow
+function power(base, exponent) {
+  if (!Number.isFinite(base) || !Number.isFinite(exponent)) throw new Error('invalid-operand');
+  return Math.pow(base, exponent);
+}
+
+// Returns square root of n. Throws on negative input.
+function squareRoot(n) {
+  if (!Number.isFinite(n)) throw new Error('invalid-operand');
+  if (n < 0) throw new Error('negative-number');
+  return Math.sqrt(n);
+}
+
+module.exports = { add, subtract, multiply, divide, modulo, power, squareRoot };
